@@ -12,6 +12,29 @@ EconomiaBR integrates official Brazilian economic data sources to provide an acc
 
 ![Economic Dashboard Chart](docs/images/dashboard-chart.png)
 
+## 🏛️ Application Architecture
+
+EconomiaBR follows a full-stack architecture with a clear separation between the frontend, backend, and external data providers.
+
+![EconomiaBR Application Architecture](docs/images/architecture.png)
+
+### Data Flow
+
+1. **Frontend — Angular 22:** Handles the user interface, interactive charts, filters, and report exports.
+2. **Backend — Java 21 and Spring Boot 4:** Provides REST endpoints, processes business logic, and integrates with external data providers.
+3. **Official Data Sources:** Retrieves economic information from Banco Central do Brasil and IBGE/SIDRA.
+4. **Visualization and Reports:** Presents the retrieved information through interactive charts and PDF/CSV exports.
+
+### Main Components
+
+| Layer | Technologies | Responsibility |
+|---|---|---|
+| Frontend | Angular, TypeScript, ECharts | User interface and data visualization |
+| Backend | Java, Spring Boot, Maven | REST API and data processing |
+| Data Providers | BCB, IBGE/SIDRA | Official economic information |
+| Export | jsPDF, AutoTable, CSV | Report and data generation |
+
+
 ## 📈 Economic Indicators
 
 EconomiaBR provides dedicated pages for four major Brazilian economic indicators.
