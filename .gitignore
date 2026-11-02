@@ -1,0 +1,36 @@
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Java / Maven
+target/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Backup do Git antigo
+frontend-git-backup/

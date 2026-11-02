@@ -1,0 +1,160 @@
+
+<main class="indicator-page">
+
+  <!-- Cabeçalho -->
+  <header class="page-header">
+    <div>
+      <span class="breadcrumb">
+        Painel / Indicadores / {{ titulo }}
+      </span>
+
+      <h1>{{ titulo }}</h1>
+      <p>{{ descricao }}</p>
+    </div>
+
+    <div class="header-status">
+      <span class="status-dot"></span>
+      Dados oficiais
+    </div>
+  </header>
+
+  <!-- Resumo do indicador -->
+  <section class="indicator-overview">
+
+    <article class="overview-card">
+      <span class="card-label">Indicador selecionado</span>
+      <strong>{{ titulo }}</strong>
+      <span class="card-description">Economia brasileira</span>
+    </article>
+
+    <article class="overview-card">
+      <span class="card-label">Valor mais recente</span>
+
+      <strong class="current-value">
+        @if (carregando) {
+          Carregando...
+        } @else if (erro) {
+          Indisponível
+        } @else {
+          @if (valorAtual !== null) {
+            {{ valorAtual | number:'1.2-2':'pt-BR' }}
+            {{ unidade }}
+          } @else {
+            --
+          }
+        }
+      </strong>
+
+      <span class="card-description">
+        Referência: {{ referenciaAtual }}
+      </span>
+    </article>
+
+    <article class="overview-card">
+      <span class="card-label">Fonte dos dados</span>
+
+      <strong>
+        @if (indicador === 'ipca' || indicador === 'pib') {
+          IBGE
+        } @else {
+          Banco Central do Brasil
+        }
+      </strong>
+
+      <span class="card-description">
+        Dados de fontes oficiais
+      </span>
+    </article>
+
+  </section>
+
+  <!-- Histórico -->
+  <section class="indicator-panel">
+
+    <div class="panel-header">
+      <div>
+        <h2>Histórico do indicador</h2>
+        <p>Visualize a evolução histórica dos dados.</p>
+      </div>
+
+      <div class="period-selector">
+        <label for="periodo">Período:</label>
+
+        <select
+          id="periodo"
+          [value]="periodoSelecionado"
+          (change)="alterarPeriodo($any($event.target).value)"
+        >
+          <option value="30">30 dias</option>
+          <option value="90">90 dias</option>
+          <option value="180">6 meses</option>
+          <option value="365">1 ano</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Carregamento -->
+    @if (carregando) {
+      <div class="chart-message">
+        <strong>Carregando dados...</strong>
+        <span>Consultando as fontes oficiais.</span>
+      </div>
+    }
+
+    <!-- Erro -->
+    @else if (erro) {
+      <div class="chart-message error-message">
+        <strong>Não foi possível carregar os dados.</strong>
+        <span>Verifique a conexão com o servidor e tente novamente.</span>
+      </div>
+    }
+
+    <!-- Gráfico -->
+    @else {
+      <div class="chart-area">
+
+        <app-economic-chart
+          [indicador]="indicador"
+          [periodoDias]="periodoSelecionado"
+          [dataInicial]="''"
+          [dataFinal]="''"
+          [ipcaDados]="ipcaDados"
+          [selicDados]="selicDados"
+          [pibDados]="pibDados"
+          [cambioDados]="cambioDados"
+        />
+
+      </div>
+    }
+
+  </section>
+
+  <!-- Informações -->
+  <section class="information-panel">
+
+    <div>
+      <h2>Sobre este indicador</h2>
+
+      <p>
+        {{ descricao }}
+        Os dados são obtidos por meio das APIs oficiais
+        e disponibilizados para acompanhamento da economia brasileira.
+      </p>
+    </div>
+
+    <div class="source-information">
+      <span class="status-dot"></span>
+      Fonte oficial: {{ indicador === 'ipca' || indicador === 'pib'
+        ? 'IBGE'
+        : 'Banco Central do Brasil' }}
+    </div>
+
+  </section>
+
+  <footer class="page-footer">
+    <span>EconomiaBR © 2026</span>
+    <span>Dados econômicos oficiais brasileiros</span>
+  </footer>
+
+</main>
+

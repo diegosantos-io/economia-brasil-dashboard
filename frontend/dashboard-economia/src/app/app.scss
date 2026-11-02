@@ -1,0 +1,174 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #e8edf7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #0b1120;
+}
+
+/* MENU LATERAL */
+
+.sidebar {
+  width: 255px;
+  min-height: 100vh;
+  padding: 30px 20px;
+  background: #101a2d;
+  border-right: 1px solid #1d2a40;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 55px;
+
+  strong {
+    display: block;
+    font-size: 19px;
+    letter-spacing: -0.5px;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    color: #71819d;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.menu-label {
+  margin-bottom: 15px;
+  padding-left: 12px;
+  color: #65748f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 14px;
+  border-radius: 9px;
+  color: #9ba9c0;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.2s ease;
+  cursor: pointer;
+
+  span {
+    width: 20px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  &:hover {
+    background: #192943;
+    color: white;
+  }
+
+  &.active {
+    background: #1d3c70;
+    color: #70a5ff;
+    font-weight: 600;
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 15px 10px;
+  color: #a6b4c9;
+  font-size: 11px;
+  border-top: 1px solid #26334a;
+
+  small {
+    display: block;
+    margin: 8px 0 0 17px;
+    color: #71819d;
+    font-size: 10px;
+  }
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+/* ÁREA DAS PÁGINAS */
+
+.dashboard > router-outlet + * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* RESPONSIVIDADE DO MENU */
+
+@media (max-width: 700px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    padding: 18px;
+  }
+
+  .brand {
+    margin-bottom: 20px;
+  }
+
+  .menu-label,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .navigation {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .nav-item {
+    flex-shrink: 0;
+    padding: 10px;
+    font-size: 11px;
+  }
+}

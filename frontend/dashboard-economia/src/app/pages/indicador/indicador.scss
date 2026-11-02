@@ -1,0 +1,285 @@
+
+:host {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  color: #e5e7eb;
+  background: #0b1120;
+}
+
+.indicator-page,
+.indicator-page * {
+  box-sizing: border-box;
+}
+
+.indicator-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  padding: 32px;
+  background: #0b1120;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+  min-width: 0;
+
+  h1 {
+    margin: 10px 0 8px;
+    color: #f8fafc;
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 14px;
+  }
+}
+
+.breadcrumb {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.header-status,
+.source-information {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.indicator-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 24px;
+}
+
+.overview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 145px;
+  padding: 22px;
+  background: #111c30;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+
+  strong {
+    color: #f8fafc;
+    font-size: 20px;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+
+  .current-value {
+    color: #38bdf8;
+    font-size: 27px;
+  }
+}
+
+.card-label {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.card-description {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.indicator-panel,
+.information-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 24px;
+  margin-bottom: 22px;
+  background: #111c30;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 0;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0 0 7px;
+    color: #f8fafc;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+}
+
+.period-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+
+  label {
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  select {
+    max-width: 100%;
+    padding: 9px 12px;
+    color: #e2e8f0;
+    background: #0b1120;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: #38bdf8;
+    }
+  }
+}
+
+.chart-area {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 350px;
+  overflow: hidden;
+}
+
+.chart-area app-economic-chart {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.chart-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 300px;
+  color: #e2e8f0;
+  text-align: center;
+
+  span {
+    color: #94a3b8;
+    font-size: 13px;
+  }
+}
+
+.error-message {
+  strong {
+    color: #f87171;
+  }
+}
+
+.information-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  h2 {
+    margin: 0 0 10px;
+    color: #f8fafc;
+    font-size: 16px;
+  }
+
+  p {
+    max-width: 700px;
+    margin: 0;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0 5px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+@media (max-width: 1100px) {
+  .indicator-page {
+    padding: 24px;
+  }
+
+  .indicator-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .indicator-page {
+    padding: 20px 14px;
+  }
+
+  .page-header,
+  .panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .indicator-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .indicator-panel,
+  .information-panel {
+    padding: 17px;
+  }
+
+  .information-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .period-selector {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .page-footer {
+    flex-direction: column;
+  }
+}

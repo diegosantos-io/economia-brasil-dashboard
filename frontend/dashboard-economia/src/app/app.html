@@ -1,0 +1,80 @@
+
+<div class="dashboard">
+
+  <!-- Menu lateral global -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">E</div>
+
+      <div>
+        <strong>EconomiaBR</strong>
+        <span>PAINEL ECONÔMICO</span>
+      </div>
+    </div>
+
+    <div class="menu-label">MENU PRINCIPAL</div>
+
+    <nav class="navigation">
+
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <span>▦</span>
+        Visão geral
+      </a>
+
+      <a
+        routerLink="/ipca"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <span>◷</span>
+        Inflação (IPCA)
+      </a>
+
+      <a
+        routerLink="/selic"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <span>％</span>
+        Taxa Selic
+      </a>
+
+      <a
+        routerLink="/pib"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <span>▥</span>
+        Produto Interno Bruto
+      </a>
+
+      <a
+        routerLink="/cambio"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <span>$</span>
+        Câmbio
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>
+      Conectado ao sistema
+
+      <small>Dados oficiais brasileiros</small>
+    </div>
+
+  </aside>
+
+  <!-- Área onde as páginas serão carregadas -->
+  <router-outlet />
+
+</div>

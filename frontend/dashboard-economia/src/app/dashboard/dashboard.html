@@ -1,0 +1,406 @@
+
+<!-- Conteúdo principal do Dashboard -->
+<main class="main-content">
+
+  <header class="topbar">
+    <div>
+      <span class="breadcrumb">Painel / Visão geral</span>
+      <h1>Dashboard Econômico</h1>
+      <p>Acompanhe os principais indicadores da economia brasileira.</p>
+    </div>
+
+    <div class="topbar-right">
+      <span class="live-indicator">
+        <span class="status-dot"></span>
+        Monitoramento
+      </span>
+      <div class="avatar">BR</div>
+    </div>
+  </header>
+
+  <!-- Indicadores -->
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <h2>Indicadores econômicos</h2>
+        <p>Principais métricas da economia nacional</p>
+      </div>
+      <span class="period-label">Visão geral</span>
+    </div>
+
+    <div class="metrics-grid">
+
+      <!-- IPCA -->
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-icon inflation">%</span>
+          <span class="metric-source">IBGE</span>
+        </div>
+
+        <span class="metric-title">IPCA</span>
+
+        <strong class="metric-value">
+          @if (carregandoIpca) {
+            Carregando...
+          } @else if (erroIpca) {
+            Indisponível
+          } @else {
+            {{ ipcaAtual?.valor != null ? (ipcaAtual!.valor | number:'1.2-2') + '%' : '--' }}
+          }
+        </strong>
+
+        <span class="metric-description">Inflação mensal</span>
+
+        <div class="metric-footer">
+          @if (carregandoIpca) {
+            Consultando IBGE...
+          } @else if (erroIpca) {
+            Erro ao consultar a API
+          } @else if (ipcaAtual) {
+            Referência: {{ ipcaAtual.periodoFormatado }}
+          } @else {
+            Nenhum dado disponível
+          }
+        </div>
+      </article>
+
+      <!-- Selic -->
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-icon interest">↗</span>
+          <span class="metric-source">BCB</span>
+        </div>
+
+        <span class="metric-title">Taxa Selic</span>
+
+        <strong class="metric-value">
+          @if (carregandoSelic) {
+            Carregando...
+          } @else if (erroSelic) {
+            Indisponível
+          } @else {
+            {{ selicAtual?.valor != null ? (selicAtual!.valor | number:'1.2-2') + ' ' + selicAtual!.unidade : '--' }}
+          }
+        </strong>
+
+        <span class="metric-description">Taxa básica de juros</span>
+
+        <div class="metric-footer">
+          @if (carregandoSelic) {
+            Consultando Banco Central...
+          } @else if (erroSelic) {
+            Erro ao consultar a API
+          } @else if (selicAtual) {
+            Referência: {{ selicAtual.dataFormatada }}
+          } @else {
+            Nenhum dado disponível
+          }
+        </div>
+      </article>
+
+      <!-- PIB -->
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-icon gdp">▥</span>
+          <span class="metric-source">IBGE</span>
+        </div>
+
+        <span class="metric-title">PIB</span>
+
+        <strong class="metric-value">
+          @if (carregandoPib) {
+            Carregando...
+          } @else if (erroPib) {
+            Indisponível
+          } @else {
+            {{ pibAtual?.valorNominal != null
+              ? (pibAtual!.valorNominal | number:'1.0-0':'pt-BR')
+              : '--' }}
+          }
+        </strong>
+
+        <span class="metric-description">
+          PIB nominal (milhões de R$)
+          <span class="gdp-growth">
+            Crescimento: {{ pibAtual?.crescimento | number:'1.1-1':'pt-BR' }}%
+          </span>
+        </span>
+
+        <div class="metric-footer">
+          @if (carregandoPib) {
+            Consultando IBGE...
+          } @else if (erroPib) {
+            Erro ao consultar a API
+          } @else if (pibAtual) {
+            {{ pibAtual.periodoFormatado }}
+          } @else {
+            Nenhum dado disponível
+          }
+        </div>
+      </article>
+
+      <!-- Câmbio -->
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-icon currency">$</span>
+          <span class="metric-source">BCB</span>
+        </div>
+
+        <span class="metric-title">Dólar comercial</span>
+
+        <strong class="metric-value">
+          @if (carregandoCambio) {
+            Carregando...
+          } @else if (erroCambio) {
+            Indisponível
+          } @else {
+            {{ cambioAtual?.venda != null
+              ? (cambioAtual!.venda | number:'1.2-4')
+              : '--' }}
+          }
+        </strong>
+
+        <span class="metric-description">Cotação de venda (R$)</span>
+
+        <div class="metric-footer">
+          @if (carregandoCambio) {
+            Consultando Banco Central...
+          } @else if (erroCambio) {
+            Erro ao consultar a API
+          } @else if (cambioAtual) {
+            Compra: {{ cambioAtual.compra | number:'1.2-4' }} |
+            {{ cambioAtual.data }}
+          } @else {
+            Nenhum dado disponível
+          }
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="charts-grid">
+
+    <article class="panel main-chart">
+
+      <div class="panel-heading">
+        <div>
+          <h2>Evolução econômica</h2>
+          <p>Visualização histórica dos indicadores</p>
+        </div>
+
+        <div class="chart-filters">
+
+          <!-- Seleção do indicador -->
+          <select
+            aria-label="Indicador do gráfico"
+            [value]="indicadorSelecionado"
+            (change)="alterarIndicador($any($event.target).value)"
+          >
+            <option value="ipca">IPCA</option>
+            <option value="selic">Selic</option>
+            <option value="pib">PIB</option>
+            <option value="cambio">Dólar</option>
+          </select>
+
+          <!-- Seleção do período -->
+          <select
+            aria-label="Período histórico"
+            [value]="filtroPersonalizadoAtivo ? 'personalizado' : periodoSelecionado"
+            (change)="alterarPeriodo($any($event.target).value)"
+          >
+            <option value="30">30 dias</option>
+            <option value="90">90 dias</option>
+            <option value="180">6 meses</option>
+            <option value="365">1 ano</option>
+            <option value="personalizado" disabled>Personalizado</option>
+          </select>
+
+        </div>
+      </div>
+
+      <!-- Filtro personalizado -->
+      <div class="date-filter">
+
+        <div class="date-field">
+          <label for="dataInicial">Data inicial</label>
+          <input
+            id="dataInicial"
+            type="date"
+            [(ngModel)]="dataInicial"
+          />
+        </div>
+
+        <div class="date-field">
+          <label for="dataFinal">Data final</label>
+          <input
+            id="dataFinal"
+            type="date"
+            [(ngModel)]="dataFinal"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="btn-date-filter"
+          (click)="aplicarIntervaloPersonalizado()"
+        >
+          Aplicar filtro
+        </button>
+
+        <button
+          type="button"
+          class="btn-clear-filter"
+          (click)="limparFiltros()"
+        >
+          Limpar filtros
+        </button>
+
+      </div>
+
+      <!-- Erro de validação -->
+      @if (erroIntervaloDatas) {
+        <p class="date-filter-error">
+          Informe um intervalo válido. A data inicial não pode ser posterior à data final.
+        </p>
+      }
+
+      <!-- Período aplicado -->
+      <div class="applied-period">
+        <span class="applied-period-label">
+          <span class="status-dot"></span>
+          Período exibido:
+        </span>
+
+        <strong>{{ descricaoPeriodoAplicado }}</strong>
+
+        @if (filtroPersonalizadoAtivo) {
+          <span class="custom-period-badge">Personalizado</span>
+        }
+      </div>
+
+      <!-- Exportação -->
+      <div class="export-actions">
+
+        <div class="export-description">
+          <strong>Exportar dados</strong>
+          <span>Baixe os dados do indicador selecionado.</span>
+        </div>
+
+        <div class="export-buttons">
+          <button
+            type="button"
+            class="btn-export btn-csv"
+            (click)="exportarCSV()"
+          >
+            <span>↓</span>
+            Exportar CSV
+          </button>
+
+          <button
+            type="button"
+            class="btn-export btn-pdf"
+            (click)="exportarPDF()"
+          >
+            <span>↓</span>
+            Exportar PDF
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Gráfico dinâmico -->
+      <div class="chart-container-wrapper">
+
+        @if (
+          (indicadorSelecionado === 'ipca' && carregandoIpca) ||
+          (indicadorSelecionado === 'selic' && carregandoSelic) ||
+          (indicadorSelecionado === 'pib' && carregandoPib) ||
+          (indicadorSelecionado === 'cambio' && carregandoCambio)
+        ) {
+          <div class="chart-placeholder">
+            <strong>Carregando gráfico...</strong>
+          </div>
+        }
+
+        @else if (
+          (indicadorSelecionado === 'ipca' && (erroIpca || !ipcaDados.length)) ||
+          (indicadorSelecionado === 'selic' && (erroSelic || !selicDados.length)) ||
+          (indicadorSelecionado === 'pib' && (erroPib || !pibDados.length)) ||
+          (indicadorSelecionado === 'cambio' && (erroCambio || !cambioDados.length))
+        ) {
+          <div class="chart-placeholder">
+            <strong>Não foi possível carregar os dados deste indicador.</strong>
+          </div>
+        }
+
+        @else {
+          <app-economic-chart
+            [indicador]="indicadorSelecionado"
+            [periodoDias]="periodoSelecionado"
+            [dataInicial]="dataInicialFiltro"
+            [dataFinal]="dataFinalFiltro"
+            [ipcaDados]="ipcaDados"
+            [selicDados]="selicDados"
+            [pibDados]="pibDados"
+            [cambioDados]="cambioDados"
+          />
+        }
+
+      </div>
+
+    </article>
+
+    <!-- Resumo econômico -->
+    <article class="panel side-panel">
+
+      <div class="panel-heading">
+        <div>
+          <h2>Resumo econômico</h2>
+          <p>Indicadores disponíveis</p>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon inflation">%</span>
+        <div>
+          <strong>Inflação</strong>
+          <small>Índice de preços ao consumidor</small>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon interest">↗</span>
+        <div>
+          <strong>Juros</strong>
+          <small>Taxa básica da economia</small>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon gdp">▥</span>
+        <div>
+          <strong>Atividade econômica</strong>
+          <small>Produto Interno Bruto</small>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon currency">$</span>
+        <div>
+          <strong>Mercado cambial</strong>
+          <small>Cotação do dólar americano</small>
+        </div>
+      </div>
+
+    </article>
+
+  </section>
+
+  <footer class="footer">
+    <span>EconomiaBR © 2026</span>
+    <span>Fontes: IBGE e Banco Central do Brasil</span>
+  </footer>
+
+</main>
